@@ -92,7 +92,8 @@ namespace AttendanceTrackingSystem.Controllers
 				Id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
             ViewBag.userId = Id;
-            var super= repoStudent.GetSupervisorByStudentId(Id);
+            //var super= repoStudent.GetSupervisorByStudentId(Id);
+            var super = 2;
             if(super != null)
             {
 
@@ -112,8 +113,8 @@ namespace AttendanceTrackingSystem.Controllers
 			{
 				try
 				{
-					int SId = (TempData["SuperVisorId"] as int?) ?? -1;
-
+					//int SId = (TempData["SuperVisorId"] as int?) ?? -1;
+                    int SId = 2;
 					if (SId != -1)
 					{
 						string scheduleCheckResult = repoPermission.CheckSchedule(permission.UserId, permission.Date);

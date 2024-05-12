@@ -235,8 +235,16 @@ namespace AttendanceTrackingSystem.Repository
 				UpdateByTrackIdAndDate(schedule);
 			}
 			else
+			{
 				db.Schedules.Add(schedule);
-			db.SaveChanges();
+				db.SaveChanges();
+				if (schedule.Type != ScheduleType.Funday && schedule.Type != ScheduleType.Holiday)
+				{
+					CreateAttendanceRecords(schedule.ScheduleId, schedule.Date);
+				}
+			}
+				
+			
 		}
 	}
 }

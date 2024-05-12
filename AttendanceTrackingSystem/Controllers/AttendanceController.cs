@@ -46,9 +46,26 @@ namespace AttendanceTrackingSystem.Controllers
             //    Date = DateTime.Now
             //};
             //repoSchedule.Add(obj2);
-            //var s = repoSchedule.getById(43);
-            //s.Type = ScheduleType.Holiday;
-            //repoSchedule.Update(s);
+
+
+            //var obj = new Schedule()
+            //{
+            //    StartPeriod = TimeOnly.FromDateTime(DateTime.Now),
+            //    EndPeriod = TimeOnly.FromDateTime(DateTime.Now).AddHours(7),
+            //    TrackId = 1,
+            //    Date = DateTime.Now
+
+            //};
+            //repoSchedule.Add(obj);
+            //var obj2 = new Schedule()
+            //{
+            //    StartPeriod = TimeOnly.FromDateTime(DateTime.Now),
+            //    EndPeriod = TimeOnly.FromDateTime(DateTime.Now).AddHours(7),
+            //    TrackId = 2,
+            //    Date = DateTime.Now
+            //};
+            //repoSchedule.Add(obj2);
+
 
 
             ViewModel.AttendanceViewModel modal = new ViewModel.AttendanceViewModel();
@@ -104,8 +121,25 @@ namespace AttendanceTrackingSystem.Controllers
         }
         public IActionResult AddAttendanceRecourd(int id , TimeOnly time)
         {
+            StudentAttendance recourd;
             var std = repoStudent.getById(id);
-            var recourd = repoStudentAttendance.getAll().FirstOrDefault(a=>a.UserId==id && a.Date.Date == (DateTime.Now.Date));
+            // get the recourd of the same day and the same student
+
+
+            recourd = repoStudentAttendance.GetByUserIdAndDate(id);
+   //         if(recourd == null)
+   //         {
+   //             repoAttendance.Add(new Models.Attendance()
+   //             {
+			//		Date = DateTime.Now,
+			//		UserId = id,
+			//		Status = AttendaneStatus.Absent,
+			//		CheckIn = TimeOnly.FromDateTime(DateTime.Parse("0:00")),
+			//		CheckOut = TimeOnly.FromDateTime(DateTime.Parse("0:00")),
+			//	});
+			//     recourd = repoStudentAttendance.getAll().FirstOrDefault(a => a.UserId == id && a.Date == (DateTime.Now));
+			//}
+
             var count = repoStudentAttendance.CheckCountOfAbsentAndLateDays(id) ;
             var permission = repoStudentAttendance.HavePermission(id);
 

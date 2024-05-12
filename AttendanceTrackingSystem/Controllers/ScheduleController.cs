@@ -136,7 +136,7 @@ namespace AttendanceTrackingSystem.Controllers
 				int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 				int trackId = repoInstructor.GetTrackBySupervisor(userId);
 				ViewBag.TrackId = trackId;
-				List<Schedule> WholeSchedule = repoSchedule.GetAllScheduleForTrack(trackId, true);
+				List<Schedule> WholeSchedule = repoSchedule.GetAllScheduleForTrack(trackId, false);
 				return View("AddSchedule", WholeSchedule);
 			}
 			catch (Exception ex)

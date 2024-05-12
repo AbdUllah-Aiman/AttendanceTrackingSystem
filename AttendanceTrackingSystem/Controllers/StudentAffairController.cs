@@ -279,7 +279,9 @@ namespace AttendanceTrackingSystem.Controllers
 			{
 				page = 1;
 			}
-			var studentAttendances = repoStdAttendance.getAll();
+			var studentAttendances = repoStdAttendance.getStudentAttendaces();
+	
+
 			if (trackid != null)
 			{
 				studentAttendances = studentAttendances.Where(s => s.StudentSchdule.Track.TrackId == trackid).ToList();

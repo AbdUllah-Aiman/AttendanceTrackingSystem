@@ -73,7 +73,10 @@ namespace AttendanceTrackingSystem.Controllers
                          HttpContext.SignInAsync(principal);
                         TempData["role"] = claim2.Value;
                         ViewBag.ImgUrl = user.ImgUrl ?? "~images/profile/user.png";
-                        TempData["img"] = user.ImgUrl ?? "/images/profile/user.png";
+						// if the user.imgurl doesn't start with /images/profile/ then it's a full url
+						TempData["img"] = setImgUrl(user?.ImgUrl);
+						
+                       
                         EditProfileViewModel model1 = new EditProfileViewModel
                         {
                             Name = user.Name,
@@ -131,6 +134,25 @@ namespace AttendanceTrackingSystem.Controllers
 
 			return View();
 		}
+		private string setImgUrl(string? imgUrl)
+		{
+			if (imgUrl != null)
+			{
+				if (!imgUrl.StartsWith("/images/profile/"))
+				{
+					return "/images/profile/" + imgUrl;
+				}
+				else
+				{
+					return imgUrl;
+				}
+			}
+			else
+			{
+				return "/images/profile/user.png";
+			}
+		}
+
 		public async Task<IActionResult> Logout()
 		{
 			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -162,7 +184,7 @@ namespace AttendanceTrackingSystem.Controllers
 						Name = model.Name,
 						Email = model.Email,
 						Phone = model.Phone,
-						ImgUrl = model.ImgUrl ?? "/images/profile/user.png",
+						ImgUrl = setImgUrl(model.ImgUrl),
 						OldPassword = model.Password,	
 						StudentDegree = student.StudentDegree,
 						StudentUniversity = student.StudentUniversity,
@@ -182,7 +204,7 @@ namespace AttendanceTrackingSystem.Controllers
 						Name = model.Name,
 						Email = model.Email,
 						Phone = model.Phone,
-						ImgUrl = model.ImgUrl ?? "/images/profile/user.png",
+						ImgUrl = setImgUrl(model.ImgUrl),
 						OldPassword = model.Password,
 						InstructorSalary = instructor.InstructorSalary,
 						TrackNames = string.Join(", ", instructor.Tracks.Select(t => t.Name)),
@@ -198,7 +220,7 @@ namespace AttendanceTrackingSystem.Controllers
 						Name = model.Name,
 						Email = model.Email,
 						Phone = model.Phone,
-						ImgUrl = model.ImgUrl ?? "/images/profile/user.png",
+						ImgUrl = setImgUrl(model.ImgUrl),
 						OldPassword = model.Password,
 						EmployeeSalary = employee.EmployeeSalary,
 						EmployeeType = employee.EmployeeType
@@ -225,7 +247,7 @@ namespace AttendanceTrackingSystem.Controllers
 			}
 			if (imgPath != string.Empty)
 			{
-				repoAccount.UpdateImage("/images/profile/" + imgPath, userId);
+				repoAccount.UpdateImage( imgPath, userId);
 				TempData.Peek("img");
 				TempData["img"] = "/images/profile/" + imgPath;
 			}

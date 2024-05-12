@@ -29,8 +29,29 @@ namespace AttendanceTrackingSystem.Repository
         {
             return db.StudentAttendances.ToList();
         }
+		public List<StudentAttendance> GetByStudentId(int studentId)
+		{
+			var result = db.StudentAttendances
+				.Include(a => a.StudentSchdule)
+				.Where(a => a.UserId == studentId && a.Date.Date == DateTime.Now.Date)
+				.ToList();
+            return result;
+		}
 
-        public StudentAttendance getById(int id)
+		public List<StudentAttendance> getStudentAttendaces()
+		{
+            var studentAttendances = db.StudentAttendances.ToList();
+
+			foreach (var item in studentAttendances)
+			{
+				var student = db.Students.FirstOrDefault(a => a.UserId == item.UserId);
+				item.currentDegree = student?.StudentDegree;
+			}
+		
+            return db.StudentAttendances.OrderByDescending(s=>s.Date).ToList();
+		}
+
+		public StudentAttendance getById(int id)
         {
             return db.StudentAttendances.FirstOrDefault(a => a.AttendanceId == id);
         }

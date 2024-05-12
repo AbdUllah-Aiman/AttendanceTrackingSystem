@@ -9,8 +9,9 @@ namespace AttendanceTrackingSystem.IRepository
         public void Add(StudentAttendance studentAttendance);
         public void Update(StudentAttendance studentAttendance);
 
-
-        public void Delete(int id);
+        public List<StudentAttendance> getStudentAttendaces();
+        public List<StudentAttendance> GetByStudentId(int studentId);
+		public void Delete(int id);
         public List<int> GetAttendanceForToday();
         public void DeleteByUserIdAndDate(int id);
         public void UpdateByUserIdAndDate(int id);
